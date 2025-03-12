@@ -26,4 +26,4 @@ jobs:
       run: npm run build
       
     - name: Run linter
-      run: npx eslint@8 . --ext .ts 
+      run: npx eslint@8 --fix . --ext .ts 

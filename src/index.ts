@@ -3,27 +3,27 @@
 
 interface EventData {
   postData: {
-      contents: string;
+    contents: string;
   };
 }
 
 interface LineEvent {
   message: {
-      text?: string;
-      mention?: {
-          mentionees: Array<{
-              userId: string;
-          }>;
-      };
+    text?: string;
+    mention?: {
+      mentionees: Array<{
+        userId: string;
+      }>;
+    };
   };
   replyToken: string;
 }
 
 interface OpenAIResponse {
   choices: Array<{
-      message: {
-          content: string;
-      };
+    message: {
+      content: string;
+    };
   }>;
 }
 
@@ -51,15 +51,15 @@ function doPost(e: EventData): void {
   const requestOptions: GoogleAppsScript.URL_Fetch.URLFetchRequestOptions = {
     method: "post" as GoogleAppsScript.URL_Fetch.HttpMethod,
     headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${props.getProperty("OPENAI_API_KEY")}`
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${props.getProperty("OPENAI_API_KEY")}`
     },
     payload: JSON.stringify({
-        "model": "gpt-4o-mini",
-        "messages": [
-            {"role": "system", "content": prompt},
-            {"role": "user", "content": userMessage}
-        ]
+      "model": "gpt-4o-mini",
+      "messages": [
+        {"role": "system", "content": prompt},
+        {"role": "user", "content": userMessage}
+      ]
     })
   };  
   
@@ -70,7 +70,7 @@ function doPost(e: EventData): void {
 
   const lineApiKey = props.getProperty("LINE_ACCESS_TOKEN");
   if (!lineApiKey) {
-    console.error('INE_ACCESS_TOKEN is not set');
+    console.error("LINE_ACCESS_TOKEN is not set");
     return;
   }
 
@@ -81,18 +81,21 @@ function doPost(e: EventData): void {
     },
     method: "post" as GoogleAppsScript.URL_Fetch.HttpMethod,
     payload: JSON.stringify({
-        "replyToken": event.replyToken,
-        "messages": [
-            {
-                "type": "text",
-                "text": text
-            }
-        ]
+      "replyToken": event.replyToken,
+      "messages": [
+        {
+          "type": "text",
+          "text": text
+        }
+      ]
     })
   });
 }
 
-// テスト用関数
+/**
+ * テスト用関数
+ * @ignore
+ */
 function testTranslation() {
   // ボットのユーザーIDを取得
   const props = PropertiesService.getScriptProperties();
