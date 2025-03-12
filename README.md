@@ -7,7 +7,7 @@ LINE Messaging APIとOpenAI APIを使用して、日本語と英語の翻訳を�
 - 日本語を英語に翻訳
 - 英語を日本語に翻訳
 - ボットのメンション検出
-- シンプルで使いやすいインターフェース
+- シンプルで使いやすいインターフェイス
 
 ## 技術スタック
 
@@ -15,7 +15,7 @@ LINE Messaging APIとOpenAI APIを使用して、日本語と英語の翻訳を�
 - TypeScript
 - LINE Messaging API
 - OpenAI API (GPT-4o-mini)
-- clasp (GASのローカル開発ツール)
+- clasp（GASのローカル開発ツール）
 
 ## セットアップ方法
 
@@ -24,45 +24,50 @@ LINE Messaging APIとOpenAI APIを使用して、日本語と英語の翻訳を�
 - Node.jsとnpmがインストールされていること
 - [LINE Developersアカウント](https://developers.line.biz/ja/)
 - [OpenAIアカウント](https://platform.openai.com/)とAPIキー
-- Google アカウント
+- Googleアカウント
 
 ### インストール手順
 
 1. リポジトリをクローン
+
 ```bash
 git clone https://github.com/yourusername/line-translate-bot.git
 cd line-translate-bot
 ```
 
 2. 依存パッケージをインストール
+
 ```bash
 npm install
 ```
 
 3. claspでGoogleにログイン
+
 ```bash
 npx clasp login
 ```
 
 4. 新しいGASプロジェクトを作成（既存のプロジェクトを使用する場合はスキップ）
+
 ```bash
 npx clasp create --title "LINE翻訳ボット" --type webapp
 ```
 
-5. スクリプトプロパティの設定
+1. スクリプトプロパティの設定
    - GASエディタで「プロジェクトの設定」→「スクリプトプロパティ」を開く
    - 以下のプロパティを追加:
      - `BOT_USER_ID`: LINEボットのユーザーID
      - `OPENAI_API_KEY`: OpenAI APIキー
      - `LINE_ACCESS_TOKEN`: LINE Messaging APIのアクセストークン
 
-6. TypeScriptのコンパイルとデプロイ
+2. TypeScriptのコンパイルとデプロイ
+
 ```bash
 npm run deploy
 ```
 
-7. LINEボットのWebhook URLを設定
-   - GASプロジェクトをデプロイしてWeb アプリケーションURLを取得
+1. LINEボットのWebhook URLを設定
+   - GASプロジェクトをデプロイしてWebアプリケーションURLを取得
    - LINE DevelopersコンソールでWebhook URLを設定
 
 ## 使用方法
