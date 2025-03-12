@@ -1,0 +1,32 @@
+{
+  "name": "line-translate-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "コード.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "rimraf build && tsc && cp src/appsscript.json build/",
+    "deploy": "npm run build && clasp push",
+    "watch": "tsc --watch",
+    "push": "clasp push",
+    "open": "clasp open"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hbkhsi/line-translate-bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/hbkhsi/line-translate-bot/issues"
+  },
+  "homepage": "https://github.com/hbkhsi/line-translate-bot#readme",
+  "devDependencies": {
+    "@google/clasp": "^2.4.2",
+    "@types/google-apps-script": "^1.0.79",
+    "rimraf": "^5.0.5",
+    "typescript": "^5.3.3"
+  }
+}
