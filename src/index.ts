@@ -52,7 +52,7 @@ function doPost(e: EventData): void {
     method: "post" as GoogleAppsScript.URL_Fetch.HttpMethod,
     headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${props.getProperty("OPENAI_APIKEY")}`
+        "Authorization": `Bearer ${props.getProperty("OPENAI_API_KEY")}`
     },
     payload: JSON.stringify({
         "model": "gpt-4o-mini",
