@@ -22,11 +22,9 @@ jobs:
           # cache: 'npm'
           # cache-dependency-path: './functions/package-lock.json'
 
-      # ルートディレクトリでのnpm installをスキップ
-      - name: Skip root npm install
-        run: |
-          echo "{\"dependencies\":{}}" > package.json
-          npm install --no-package-lock --no-save
+      # ルートディレクトリでもnpm installを実行（既存のpackage.jsonを使用）
+      - name: Install root dependencies
+        run: npm install --no-package-lock
 
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
@@ -42,11 +40,8 @@ jobs:
           echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
           echo "BOT_USER_ID=${{ secrets.BOT_USER_ID }}" >> .env
 
-      - name: Lint and Build
-        working-directory: ./functions
-        run: |
-          npm run lint
-          npm run build
+      - name: Lint and Build from root
+        run: npm run build
 
       - name: Deploy to Firebase
         run: firebase deploy --only functions:lineTranslateBot --project translate-kkz --token "${{ secrets.FIREBASE_TOKEN }}" --non-interactive 

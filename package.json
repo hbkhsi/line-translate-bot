@@ -7,6 +7,8 @@
     "node": "18.x"
   },
   "scripts": {
-    "deploy": "firebase deploy --only functions:lineTranslateBot"
+    "deploy": "firebase deploy --only functions:lineTranslateBot",
+    "build": "cd functions && npm run build",
+    "lint": "cd functions && npm run lint"
   }
 } 
