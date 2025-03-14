@@ -1,0 +1,12 @@
+{
+  "name": "line-translate-bot",
+  "version": "1.0.0",
+  "description": "LINE Messaging APIとOpenAI APIを使用した翻訳ボット",
+  "private": true,
+  "engines": {
+    "node": "18.x"
+  },
+  "scripts": {
+    "deploy": "firebase deploy --only functions:lineTranslateBot"
+  }
+} 
