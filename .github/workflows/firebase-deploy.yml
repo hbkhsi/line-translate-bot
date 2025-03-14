@@ -3,8 +3,6 @@ name: Firebase Deploy
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'functions/**'  # functionsディレクトリの変更時のみ実行
 
 jobs:
   deploy:
