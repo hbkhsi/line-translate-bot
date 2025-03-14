@@ -17,15 +17,16 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.x'  # Node 18を使用
+          node-version: '22'  # functionsのpackage.jsonに合わせてNode 22を使用
 
       # ルートディレクトリの依存関係をインストール
       - name: Install Dependencies
         run: npm install
 
-      # functionsディレクトリの依存関係をインストール
+      # functionsディレクトリの依存関係をインストール（--force を追加して互換性の問題を回避）
       - name: Install Functions Dependencies
-        run: cd functions && npm install
+        working-directory: ./functions
+        run: npm install --force
 
       # Firebase CLIをインストール
       - name: Install Firebase CLI
