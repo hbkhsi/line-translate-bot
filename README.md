@@ -11,20 +11,21 @@ LINE Messaging APIとOpenAI APIを使用して、日本語と英語の翻訳を�
 
 ## 技術スタック
 
-- Google Apps Script (GAS)
+- Firebase Functions
 - TypeScript
 - LINE Messaging API
 - OpenAI API (GPT-4o-mini)
-- clasp（GASのローカル開発ツール）
+- axios
 
 ## セットアップ方法
 
 ### 前提条件
 
 - Node.jsとnpmがインストールされていること
+- [Firebase CLI](https://firebase.google.com/docs/cli)のインストール
 - [LINE Developersアカウント](https://developers.line.biz/ja/)
 - [OpenAIアカウント](https://platform.openai.com/)とAPIキー
-- Googleアカウント
+- Firebaseアカウント
 
 ### インストール手順
 
@@ -35,40 +36,41 @@ git clone https://github.com/yourusername/line-translate-bot.git
 cd line-translate-bot
 ```
 
-2. 依存パッケージをインストール
+2. Firebase CLIにログイン
 
 ```bash
+firebase login
+```
+
+3. プロジェクトを初期化（既存のFirebaseプロジェクトを使用する場合）
+
+```bash
+firebase use --add
+```
+
+4. 依存パッケージをインストール
+
+```bash
+cd functions
 npm install
 ```
 
-3. claspでGoogleにログイン
-
-```bash
-npx clasp login
-```
-
-4. 新しいGASプロジェクトを作成（既存のプロジェクトを使用する場合はスキップ）
-
-```bash
-npx clasp create --title "LINE翻訳ボット" --type webapp
-```
-
-1. スクリプトプロパティの設定
-   - GASエディタで「プロジェクトの設定」→「スクリプトプロパティ」を開く
-   - 以下のプロパティを追加:
+5. 環境変数の設定
+   - `.env.example`をコピーして`.env`ファイルを作成
+   - 以下の変数を設定:
      - `BOT_USER_ID`: LINEボットのユーザーID
      - `OPENAI_API_KEY`: OpenAI APIキー
      - `LINE_ACCESS_TOKEN`: LINE Messaging APIのアクセストークン
 
-2. TypeScriptのコンパイルとデプロイ
+6. デプロイ
 
 ```bash
-npm run deploy
+firebase deploy --only functions:lineTranslateBot
 ```
 
-1. LINEボットのWebhook URLを設定
-   - GASプロジェクトをデプロイしてWebアプリケーションURLを取得
-   - LINE DevelopersコンソールでWebhook URLを設定
+7. LINE Webhook URLの設定
+   - デプロイ後に表示されるURLをコピー
+   - LINE DevelopersコンソールでWebhook URLとして設定
 
 ## 使用方法
 
@@ -79,17 +81,21 @@ npm run deploy
 
 ## 開発方法
 
+### ローカルでのテスト
+
+```bash
+cd functions
+npm run serve
+```
+
+Firebaseエミュレータが起動し、ローカルでFunctionsをテストできます。
+
 ### コマンド
 
 - `npm run build`: TypeScriptをコンパイル
-- `npm run deploy`: ビルドしてGASにデプロイ
-- `npm run watch`: ファイル変更を監視して自動コンパイル
-- `npm run push`: ビルド済みコードをデプロイ
-- `npm run open`: GASエディタをブラウザで開く
-
-### テスト
-
-GASエディタで`testTranslation`関数を実行すると、翻訳機能のテストが行われます。
+- `npm run serve`: ローカルでエミュレータを起動
+- `npm run deploy`: Firebase Functionsにデプロイ
+- `npm run logs`: デプロイされたFunctionsのログを表示
 
 ## ライセンス
 

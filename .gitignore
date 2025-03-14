@@ -1,16 +1,18 @@
+# Firebase
+.firebase/
+firebase-debug.log
+ui-debug.log
+.runtimeconfig.json
+
 # Node.js
 node_modules/
 npm-debug.log
 yarn-error.log
 yarn-debug.log
 
-# TypeScript
-build/
-*.js.map
-
-# clasp
-.clasp.json
-.clasprc.json
+# Environment variables
+.env
+*.local
 
 # Editor
 .vscode/
@@ -21,6 +23,3 @@ build/
 # OS
 .DS_Store
 Thumbs.db 
-
-# Environment variables
-.env 
