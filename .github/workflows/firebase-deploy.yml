@@ -21,12 +21,12 @@ jobs:
 
       # ルートディレクトリの依存関係をインストール
       - name: Install Dependencies
-        run: npm install
+        run: cd functions && npm install
 
       # functionsディレクトリの依存関係をインストール
       - name: Install Functions Dependencies
         working-directory: ./functions
-        run: npm install --force
+        run: cd functions && npm install
 
       # Firebase CLIをインストール
       - name: Install Firebase CLI
