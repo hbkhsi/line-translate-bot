@@ -18,8 +18,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '20.x'
-          cache: 'npm'
-          cache-dependency-path: functions/package-lock.json
 
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
@@ -43,4 +41,4 @@ jobs:
 
       - name: Deploy to Firebase
         run: |
-          firebase deploy --only functions:lineTranslateBot --token "${{ secrets.FIREBASE_TOKEN }}" --non-interactive 
+          firebase deploy --only functions:lineTranslateBot --project translate-kkz --token "${{ secrets.FIREBASE_TOKEN }}" --non-interactive 
