@@ -3,8 +3,8 @@ name: Firebase Deploy
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'functions/**'  # functionsディレクトリの変更時のみ実行
+    # paths:
+    #   - 'functions/**'  # functionsディレクトリの変更時のみ実行
 
 jobs:
   deploy:
@@ -20,7 +20,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.x'  # Node 18.xを使用
+          node-version: '18'  # Node 18を使用
 
       # 依存関係をインストール
       - name: Install Dependencies

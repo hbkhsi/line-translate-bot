@@ -4,7 +4,7 @@
   "description": "LINE Messaging APIとOpenAI APIを使用した翻訳ボット",
   "private": true,
   "engines": {
-    "node": "18.x"
+    "node": "18"
   },
   "main": "lib/index.js",
   "scripts": {
