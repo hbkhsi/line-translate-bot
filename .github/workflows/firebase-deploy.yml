@@ -18,13 +18,18 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18.x'
-          cache: 'npm'
-          cache-dependency-path: './functions/package-lock.json'
+          # キャッシュを無効化（エラーの原因になるため）
+          # cache: 'npm'
+          # cache-dependency-path: './functions/package-lock.json'
 
       - name: Install Firebase CLI
         run: npm install -g firebase-tools
 
-      - name: Install dependencies
+      # 以下のconfigureステップを追加してnpm installを回避
+      - name: Configure npm to avoid unnecessary install
+        run: echo "Install is handled in the functions directory"
+
+      - name: Navigate to functions directory and install dependencies
         working-directory: ./functions
         run: npm ci
 
@@ -42,4 +47,5 @@ jobs:
           npm run build
 
       - name: Deploy to Firebase
+        working-directory: ./
         run: firebase deploy --only functions:lineTranslateBot --project translate-kkz --token "${{ secrets.FIREBASE_TOKEN }}" --non-interactive 
