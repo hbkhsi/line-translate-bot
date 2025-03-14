@@ -17,7 +17,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18.x'
+          node-version: '22'
           # キャッシュは無効化
           # cache: 'npm'
           # cache-dependency-path: './functions/package-lock.json'
@@ -33,6 +33,21 @@ jobs:
         working-directory: ./functions
         run: npm ci
 
+      # 型定義ファイルをインストールするステップを追加
+      - name: Install TypeScript type definitions
+        working-directory: ./functions
+        run: |
+          npm install --save-dev @types/node
+          npm install --save-dev @types/dotenv
+          npm install --save-dev @types/axios
+
+      - name: Show source code for debugging
+        working-directory: ./functions
+        run: |
+          echo "Content of index.ts file:"
+          cat src/index.ts
+          echo "-----------------------------------"
+
       - name: Create .env file
         working-directory: ./functions
         run: |
@@ -40,8 +55,20 @@ jobs:
           echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
           echo "BOT_USER_ID=${{ secrets.BOT_USER_ID }}" >> .env
 
-      - name: Lint and Build from root
-        run: npm run build
+      # ビルド前にTypeScriptコンパイラがモジュールを見つけられるようにTSConfigを確認
+      - name: Check TypeScript configuration
+        working-directory: ./functions
+        run: |
+          echo "Checking tsconfig.json"
+          cat tsconfig.json
+          echo "Installing additional types if needed"
+          npm list firebase-functions || npm install firebase-functions
+          npm list axios || npm install axios
+          npm list dotenv || npm install dotenv
+
+      - name: Verbose build
+        working-directory: ./functions
+        run: npx tsc --traceResolution
 
       - name: Deploy to Firebase
         run: firebase deploy --only functions:lineTranslateBot --project translate-kkz --token "${{ secrets.FIREBASE_TOKEN }}" --non-interactive 
