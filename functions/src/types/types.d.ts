@@ -2,12 +2,12 @@ declare module "axios";
 declare module "dotenv";
 declare module "firebase-functions/v2/https" {
   export function onRequest(
-    handler: (request: unknown, response: unknown) => void | Promise<void>
-  ): unknown;
+    handler: (request: any, response: any) => void | Promise<void>
+  ): any;
 }
 declare module "firebase-functions/logger" {
-  export function info(message: string, data?: unknown): void;
-  export function error(message: string, error?: unknown): void;
+  export function info(message: string, data?: any): void;
+  export function error(message: string, error?: any): void;
 }
 declare namespace NodeJS {
   interface Process {
