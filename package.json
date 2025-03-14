@@ -10,5 +10,8 @@
     "deploy": "firebase deploy --only functions:lineTranslateBot",
     "build": "cd functions && npm run build",
     "lint": "cd functions && npm run lint"
+  },
+  "dependencies": {
+    "firebase-tools": "^13.0.0"
   }
 } 
