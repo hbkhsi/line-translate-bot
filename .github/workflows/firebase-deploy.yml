@@ -1,0 +1,46 @@
+name: Firebase Deploy
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'functions/**'  # functionsディレクトリの変更時のみ実行
+
+jobs:
+  deploy:
+    name: Deploy Firebase Functions
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+          cache-dependency-path: functions/package-lock.json
+
+      - name: Install Firebase CLI
+        run: npm install -g firebase-tools
+
+      - name: Install dependencies
+        working-directory: ./functions
+        run: npm ci
+
+      - name: Create .env file
+        working-directory: ./functions
+        run: |
+          echo "LINE_ACCESS_TOKEN=${{ secrets.LINE_ACCESS_TOKEN }}" > .env
+          echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
+          echo "BOT_USER_ID=${{ secrets.BOT_USER_ID }}" >> .env
+
+      - name: Lint and Build
+        working-directory: ./functions
+        run: |
+          npm run lint
+          npm run build
+
+      - name: Deploy to Firebase
+        run: |
+          firebase deploy --only functions:lineTranslateBot --token "${{ secrets.FIREBASE_TOKEN }}" --non-interactive 

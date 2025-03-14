@@ -72,6 +72,35 @@ firebase deploy --only functions:lineTranslateBot
    - デプロイ後に表示されるURLをコピー
    - LINE DevelopersコンソールでWebhook URLとして設定
 
+## 環境変数
+
+以下の環境変数をfunctionsディレクトリの`.env`ファイルに設定してください：
+
+```
+LINE_ACCESS_TOKEN=XXX
+OPENAI_API_KEY=XXX
+BOT_USER_ID=XXX
+```
+
+## GitHub Actionsを使った自動デプロイ
+
+GitHubにプッシュした際に自動的にFirebase Functionsをデプロイするように設定されています。以下の手順で設定を完了させてください：
+
+1. Firebase CLIトークンを取得する
+   ```
+   firebase login:ci
+   ```
+   
+2. 表示されたトークンをコピーする
+
+3. GitHubリポジトリの **Settings > Secrets > Actions > New repository secret** で以下のシークレットを追加する
+   - `FIREBASE_TOKEN`: 手順1で取得したトークン
+   - `LINE_ACCESS_TOKEN`: LINE Messaging APIのアクセストークン
+   - `OPENAI_API_KEY`: OpenAI APIのアクセスキー
+   - `BOT_USER_ID`: LINEボットのユーザーID
+
+これで、`functions`ディレクトリ内のファイルを変更してGitHubにプッシュすると、自動的にFirebase Functionsがデプロイされます。
+
 ## 使用方法
 
 1. LINEアプリでボットを友達に追加

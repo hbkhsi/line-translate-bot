@@ -49,13 +49,48 @@ export const lineTranslateBot = onRequest(async (request, response) => {
   try {
     // LINEからのリクエストをパース
     const parsedContents = request.body;
+
+    // リクエストの検証
+    if (!parsedContents || !parsedContents.events ||
+        !Array.isArray(parsedContents.events) ||
+        parsedContents.events.length === 0) {
+      // 検証イベントの場合はOKを返す
+      logger.info(
+        "Received validation request or empty events array",
+        {body: JSON.stringify(request.body)}
+      );
+      response.status(200).send("OK");
+      return;
+    }
+
     const event = parsedContents.events[0] as LineEvent;
+
+    // メッセージが存在するか確認
+    if (!event.message) {
+      logger.info(
+        "Received event with no message",
+        {event: JSON.stringify(event)}
+      );
+      response.status(200).send("OK");
+      return;
+    }
+
     const botUserId = process.env.BOT_USER_ID;
     let userMessage = event.message.text;
-    
-    const mentions = event.message.mention
-      ? event.message.mention.mentionees
-      : [];
+
+    // メッセージテキストがない場合
+    if (!userMessage) {
+      logger.info(
+        "Received event with no message text",
+        {event: JSON.stringify(event)}
+      );
+      response.status(200).send("OK");
+      return;
+    }
+
+    const mentions = event.message.mention ?
+      event.message.mention.mentionees :
+      [];
     const isMentioned = mentions.some((m) => m.userId === botUserId);
 
     if (!isMentioned || !botUserId) {
@@ -69,7 +104,12 @@ export const lineTranslateBot = onRequest(async (request, response) => {
     }
 
     // OpenAI APIリクエスト用のプロンプト
-    const prompt = `Extract the language of the message passed from the user and translate it into English if it is in Japanese, or into Japanese if it is in English. Output only the translated text, omitting the explanation and conclusion at the beginning. Also, exclude mentions such as @Translate from the output.`;
+    const prompt =
+      "Extract the language of the message passed from the user and " +
+      "translate it into English if it is in Japanese, or into Japanese " +
+      "if it is in English. Output only the translated text, omitting the " +
+      "explanation and conclusion at the beginning. Also, exclude mentions " +
+      "such as @Translate from the output.";
 
     // OpenAI APIリクエスト
     const openaiResponse = await axios.post(
@@ -78,15 +118,15 @@ export const lineTranslateBot = onRequest(async (request, response) => {
         model: "gpt-4o-mini",
         messages: [
           {role: "system", content: prompt},
-          {role: "user", content: userMessage}
-        ]
+          {role: "user", content: userMessage},
+        ],
       },
       {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`
-        }
-      }
+          "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+        },
+      },
     );
 
     const json = openaiResponse.data as OpenAIResponse;
@@ -96,7 +136,7 @@ export const lineTranslateBot = onRequest(async (request, response) => {
     const lineApiKey = process.env.LINE_ACCESS_TOKEN;
     if (!lineApiKey) {
       logger.error("LINE_ACCESS_TOKEN is not set");
-      response.status(500).send("Internal Server Error");
+      response.status(200).send("OK"); // エラーでも200を返す
       return;
     }
 
@@ -107,25 +147,26 @@ export const lineTranslateBot = onRequest(async (request, response) => {
         messages: [
           {
             type: "text",
-            text: text
-          }
-        ]
+            text: text,
+          },
+        ],
       },
       {
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${lineApiKey}`
-        }
-      }
+          "Authorization": `Bearer ${lineApiKey}`,
+        },
+      },
     );
 
     logger.info("Successfully processed message", {
       original: userMessage,
-      translated: text
+      translated: text,
     });
     response.status(200).send("OK");
   } catch (error) {
+    // エラーをログに記録するが、200 OKを返す
     logger.error("Error processing request", error);
-    response.status(500).send("Internal Server Error");
+    response.status(200).send("OK"); // LINEプラットフォームには常に200を返す
   }
 });
