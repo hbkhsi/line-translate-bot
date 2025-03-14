@@ -74,21 +74,7 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      # デプロイのためにルートにpackage.jsonを作成
-      - name: Create temporary package.json in root
-        working-directory: .
-        run: |
-          echo '{
-            "name": "line-translate-bot-root",
-            "version": "1.0.0",
-            "description": "LINE Messaging APIとOpenAI APIを使用した翻訳ボット",
-            "private": true,
-            "engines": {
-              "node": "18.x"
-            }
-          }' > package.json
-
-      # Firebaseにデプロイ（ルートディレクトリから実行）
+      # Firebaseにデプロイ
       - name: Deploy to Firebase
         working-directory: .
         run: firebase deploy --only functions:lineTranslateBot --project translate-kkz --token "${{ secrets.FIREBASE_TOKEN }}" --non-interactive 

@@ -1,7 +1,7 @@
 {
   "functions": [
     {
-      "source": ".",
+      "source": "functions",
       "codebase": "default",
       "ignore": [
         "node_modules",
@@ -11,8 +11,8 @@
         "*.local"
       ],
       "predeploy": [
-        "cd functions && npm run lint",
-        "cd functions && npm run build"
+        "npm run lint",
+        "npm run build"
       ]
     }
   ]
