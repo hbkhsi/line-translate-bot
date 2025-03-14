@@ -126,7 +126,7 @@ export const lineTranslateBot = onRequest(async (request, response) => {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
         },
-      },
+      }
     );
 
     const json = openaiResponse.data as OpenAIResponse;
@@ -156,7 +156,7 @@ export const lineTranslateBot = onRequest(async (request, response) => {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${lineApiKey}`,
         },
-      },
+      }
     );
 
     logger.info("Successfully processed message", {
