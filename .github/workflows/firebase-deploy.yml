@@ -21,7 +21,7 @@ jobs:
 
       # ルートディレクトリの依存関係をインストール
       - name: Install Dependencies
-        run: cd functions && npm install
+        run: npm install
 
       # functionsディレクトリの依存関係をインストール
       - name: Install Functions Dependencies
@@ -79,13 +79,18 @@ jobs:
           EOL
           echo "Created manual type definitions"
           cat src/types/global.d.ts
+      
+      # ルートディレクトリでビルドを実行
+      - name: Build Functions
+        working-directory: ./functions
+        run: npm run build
 
       # 直接functionsディレクトリでビルドを実行
       - name: Build Functions
         working-directory: ./functions
         run: |
           # 通常のビルドを試行
-          npm run build || {
+          cd functions && npm run build || {
             echo "Standard build failed, trying direct tsc compilation..."
             # 直接tscを実行
             npx tsc --skipLibCheck || {
