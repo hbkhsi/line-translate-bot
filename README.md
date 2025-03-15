@@ -1,6 +1,6 @@
 # LINE翻訳ボット
 
-LINE Messaging APIとOpenAI APIを使用して、日本語と英語の翻訳を行うLINEボットです。LINEのメッセージでボットをメンションすると、メッセージを自動的に翻訳して返信します。
+LINE Messaging APIとOpenAI APIを使用して、日本語と英語の翻訳を行うLINEボットです。LINEのメッセージでBotをメンションすると、メッセージを自動的に翻訳して返信します。
 
 ## 機能
 
@@ -138,4 +138,4 @@ MITライセンスの下で公開されています。詳細は[LICENSE](LICENSE
 
 ## 作者
 
-あなたの名前 - [@hbkhsi](https://x.com/hbkhsi)
+[@hbkhsi](https://x.com/hbkhsi)
