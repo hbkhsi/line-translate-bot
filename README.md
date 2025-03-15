@@ -7,7 +7,6 @@ LINE Messaging APIとOpenAI APIを使用して、日本語と英語の翻訳を�
 - 日本語を英語に翻訳
 - 英語を日本語に翻訳
 - ボットのメンション検出
-- シンプルで使いやすいインターフェイス
 
 ## 技術スタック
 
@@ -15,7 +14,6 @@ LINE Messaging APIとOpenAI APIを使用して、日本語と英語の翻訳を�
 - TypeScript
 - LINE Messaging API
 - OpenAI API (GPT-4o-mini)
-- axios
 
 ## セットアップ方法
 
@@ -140,4 +138,4 @@ MITライセンスの下で公開されています。詳細は[LICENSE](LICENSE
 
 ## 作者
 
-あなたの名前 - [@yourTwitter](https://twitter.com/yourTwitter) - your.email@example.com 
+あなたの名前 - [@hbkhsi](https://x.com/hbkhsi)
