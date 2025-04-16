@@ -110,7 +110,7 @@ export const lineTranslateBot = onRequest(async (request, response) => {
     const openaiResponse = await axios.post(
       "https://api.openai.com/v1/chat/completions",
       {
-        model: "gpt-4o-mini",
+        model: "gpt-4.1-nano",
         messages: [
           {role: "system", content: prompt},
           {role: "user", content: userMessage},

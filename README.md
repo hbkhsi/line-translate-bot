@@ -13,7 +13,7 @@ LINE Messaging APIとOpenAI APIを使用して、日本語と英語の翻訳を�
 - Firebase Functions
 - TypeScript
 - LINE Messaging API
-- OpenAI API (GPT-4o-mini)
+- OpenAI API (GPT-4.1-nano)
 
 ## セットアップ方法
 
